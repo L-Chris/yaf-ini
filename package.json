@@ -1,0 +1,27 @@
+{
+  "author": "Jiahui.liang <563303226@QQ.COM>",
+  "name": "yaf-ini",
+  "description": "An ini encoder/decoder for node",
+  "version": "0.1.0",
+  "repository": "git://github.com/L-Chris/yar-ini.git",
+  "main": "ini.js",
+  "scripts": {
+    "pretest": "standard ini.js",
+    "test": "tap test/*.js --100 -J",
+    "preversion": "npm test",
+    "postversion": "npm publish",
+    "postpublish": "git push origin --all; git push origin --tags"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "standard": "^10.0.3",
+    "tap": "^10.7.3 || 11"
+  },
+  "license": "MIT",
+  "files": [
+    "ini.js"
+  ]
+}
