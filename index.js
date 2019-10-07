@@ -79,6 +79,14 @@ function decode (str) {
     var match = line.match(re)
     if (!match) return
     if (match[1] !== undefined) {
+      var sections = match[1].split(':')
+      if (sections.length >= 2) {
+        section = unsafe(sections[0])
+        var parent = unsafe(sections[1])
+        p = out[section] = out[parent] || {}
+        return
+      }
+
       section = unsafe(match[1])
       p = out[section] = out[section] || {}
       return
