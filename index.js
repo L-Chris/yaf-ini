@@ -28,7 +28,11 @@ function encode (obj, opt) {
     var val = obj[k]
     if (val && Array.isArray(val)) {
       val.forEach(function (item) {
-        out += safe(k + '[]') + separator + safe(item) + '\n'
+        if (Array.isArray(item)) {
+          out += safe(k + '[' + item[0] + ']') + separator + safe(item[1]) + '\n'
+        } else {
+          out += safe(k + '[]') + separator + safe(item) + '\n'
+        }
       })
     } else if (val && typeof val === 'object') {
       children.push(k)
@@ -72,6 +76,7 @@ function decode (str) {
   var section = null
   //          section     |key      = value
   var re = /^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i
+  var reObjectKey = /\[(\w+)\]$/
   var lines = str.split(/[\r\n]+/g)
 
   lines.forEach(function (line, _, __) {
@@ -99,9 +104,20 @@ function decode (str) {
       case 'null': value = JSON.parse(value)
     }
 
+    var splits = key.split(reObjectKey)
+    var objectKey = ''
+
     // Convert keys with '[]' suffix to an array
     if (key.length > 2 && key.slice(-2) === '[]') {
       key = key.substring(0, key.length - 2)
+      if (!p[key]) {
+        p[key] = []
+      } else if (!Array.isArray(p[key])) {
+        p[key] = [p[key]]
+      }
+    } else if (splits.length > 1) {
+      key = splits[0]
+      objectKey = splits[1]
       if (!p[key]) {
         p[key] = []
       } else if (!Array.isArray(p[key])) {
@@ -112,7 +128,11 @@ function decode (str) {
     // safeguard against resetting a previously defined
     // array by accidentally forgetting the brackets
     if (Array.isArray(p[key])) {
-      p[key].push(value)
+      if (objectKey.length) {
+        p[key].push([objectKey, value])
+      } else {
+        p[key].push(value)
+      }
     } else {
       p[key] = value
     }
