@@ -2,7 +2,7 @@
   "author": "Jiahui.liang <563303226@QQ.COM>",
   "name": "yaf-config-ini",
   "description": "An ini encoder/decoder for node",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": "git://github.com/L-Chris/yar-config-ini.git",
   "main": "index.js",
   "scripts": {
