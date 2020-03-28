@@ -1,3 +1,9 @@
+# yaf-config-ini
+
+## Notice
+This package is used to parse and serialize ini file for Yaf.
+
+## Info
 An ini format parser and serializer for node.
 
 Sections are treated as nested objects.  Items before the first
